@@ -53,6 +53,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  followers     User[] @relation("UserFollows")
+  following     User[] @relation("UserFollows")
   journals      Journal[]
   timecapsules  TimeCapsule[]
 
