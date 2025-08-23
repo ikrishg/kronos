@@ -54,8 +54,7 @@ model User {
   sessions      Session[]
 
   journals      Journal[]
-  followers     User[]    @relation("UserFollows", references: [id])
-  following     User[]    @relation("UserFollows", references: [id])
+  timecapsules  TimeCapsule[]
 
   @@map("users")
 }
@@ -87,10 +86,11 @@ model TimeCapsule {
   id        String   @id @default(cuid())
   content   String   @db.Text
 
+
+  public Boolean @default(false)
   date DateTime @default(now()) @map("created_at")
   deliverAt DateTime @map("deliver_at")
   delivered Boolean @default(false)
-  public Boolean @default(false)
 
   userId    String   @map("user_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
