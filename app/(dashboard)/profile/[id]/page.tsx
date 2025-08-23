@@ -10,14 +10,8 @@ import { getUserTimeCapsules } from "@/app/actions/timecapsule";
 import TimeCapsuleCard from "@/app/components/TimeCapsuleCard";
 import { format } from "date-fns";
 
-interface ProfilePageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function ProfilePage({ params }: ProfilePageProps) {
-  const { id } = params;
+export default async function ProfilePage(props: any) {
+  const { id } = props.params;
   const session = await auth();
   const currentUserId = session?.user?.id;
 
