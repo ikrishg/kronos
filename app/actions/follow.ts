@@ -56,18 +56,18 @@ export async function getFollowing(userId: string) {
 // Toggle follow status (follow if not following, unfollow if already following)
 export async function toggleFollow({ targetUserId }: FollowParams) {
   const session = await auth();
-  
+
   if (!session?.user) {
     throw new Error("Unauthorized");
   }
 
   const currentUserId = session.user.id;
-  
+
   // Can't follow yourself
   if (currentUserId === targetUserId) {
     throw new Error("Cannot follow yourself");
   }
-  
+
   // Validate input
   const validatedData = FollowSchema.parse({
     targetUserId,
@@ -111,6 +111,8 @@ export async function toggleFollow({ targetUserId }: FollowParams) {
   revalidatePath(`/profile/${targetUserId}/followers`);
   revalidatePath(`/profile/${targetUserId}/following`);
   revalidatePath(`/profile/${currentUserId}/following`);
+  revalidatePath("/feed");
+  revalidatePath("/");
 
   return !existingFollow;
 }

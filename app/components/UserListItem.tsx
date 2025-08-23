@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { User2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { auth } from "@/auth";
-import { toggleFollow } from "@/app/actions/follow";
+import FollowButton from "./FollowButton";
 
 interface UserListItemProps {
   user: {
@@ -44,19 +43,10 @@ export async function UserListItem({ user, isFollowing }: UserListItemProps) {
       </Link>
 
       {!isCurrentUser && currentUserId && (
-        <form
-          action={async () => {
-            await toggleFollow({ targetUserId: user.id });
-          }}
-        >
-          <Button
-            variant={isFollowing ? "outline" : "default"}
-            size="sm"
-            className="rounded-full"
-          >
-            {isFollowing ? "Following" : "Follow"}
-          </Button>
-        </form>
+        <FollowButton
+          targetUserId={user.id}
+          initialIsFollowing={isFollowing || false}
+        />
       )}
     </div>
   );

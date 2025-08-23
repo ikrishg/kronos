@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowLeft, Calendar, MapPin, User2 } from "lucide-react";
+import { ArrowLeft, Calendar, User2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -8,9 +8,12 @@ import { auth } from "@/auth";
 import { prisma } from "@/prisma";
 import { getUserTimeCapsules } from "@/app/actions/timecapsule";
 import TimeCapsuleCard from "@/app/components/TimeCapsuleCard";
+import FollowButton from "@/app/components/FollowButton";
 import { format } from "date-fns";
 
-export default async function ProfilePage(props: any) {
+export default async function ProfilePage(props: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await props.params;
   const session = await auth();
   const currentUserId = session?.user?.id;
@@ -52,8 +55,13 @@ export default async function ProfilePage(props: any) {
   const timeCapsules = await getUserTimeCapsules(id);
 
   // Calculate delivered and pending capsules
-  const deliveredCapsules = timeCapsules.filter((capsule) => capsule.delivered);
-  const pendingCapsules = timeCapsules.filter((capsule) => !capsule.delivered);
+  const now = new Date();
+  const deliveredCapsules = timeCapsules.filter(
+    (capsule) => new Date(capsule.deliverAt) <= now
+  );
+  const pendingCapsules = timeCapsules.filter(
+    (capsule) => new Date(capsule.deliverAt) > now
+  );
 
   return (
     <div className="min-h-screen pb-20">
@@ -98,41 +106,10 @@ export default async function ProfilePage(props: any) {
                 Edit profile
               </Button>
             ) : (
-              <form
-                action={async () => {
-                  "use server";
-                  if (!currentUserId) return;
-
-                  if (isFollowing) {
-                    // Unfollow
-                    await prisma.user.update({
-                      where: { id: currentUserId },
-                      data: {
-                        following: {
-                          disconnect: { id: user.id },
-                        },
-                      },
-                    });
-                  } else {
-                    // Follow
-                    await prisma.user.update({
-                      where: { id: currentUserId },
-                      data: {
-                        following: {
-                          connect: { id: user.id },
-                        },
-                      },
-                    });
-                  }
-                }}
-              >
-                <Button
-                  variant={isFollowing ? "outline" : "default"}
-                  className="rounded-full"
-                >
-                  {isFollowing ? "Following" : "Follow"}
-                </Button>
-              </form>
+              <FollowButton
+                targetUserId={user.id}
+                initialIsFollowing={isFollowing}
+              />
             )}
           </div>
 
@@ -241,7 +218,11 @@ export default async function ProfilePage(props: any) {
             ) : (
               <div className="divide-y">
                 {pendingCapsules.map((capsule) => (
-                  <TimeCapsuleCard key={capsule.id} timeCapsule={capsule} />
+                  <TimeCapsuleCard
+                    key={capsule.id}
+                    timeCapsule={capsule}
+                    hideContent={true}
+                  />
                 ))}
               </div>
             )}
