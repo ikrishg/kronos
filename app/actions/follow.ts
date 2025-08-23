@@ -105,22 +105,6 @@ export async function toggleFollow({ targetUserId }: FollowParams) {
         },
       },
     });
-
-    // Get current user name for the notification
-    const currentUser = await prisma.user.findUnique({
-      where: { id: currentUserId },
-      select: { name: true }
-    });
-
-    // Create a notification for the follow action
-    await prisma.notification.create({
-      data: {
-        type: "follow",
-        message: `${currentUser?.name || "Someone"} started following you`,
-        receiverId: validatedData.targetUserId,
-        actorId: currentUserId,
-      }
-    });
   }
 
   revalidatePath(`/profile/${targetUserId}`);

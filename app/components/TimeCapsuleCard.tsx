@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow, format } from "date-fns";
-import { User2, Clock, Globe, Lock } from "lucide-react";
+import { User2, Clock, Globe, Lock, Heart, MessageSquare, Repeat, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { TimeCapsuleWithUser } from "@/types";
 
 interface TimeCapsuleCardProps {
@@ -49,7 +50,7 @@ export default function TimeCapsuleCard({ timeCapsule }: TimeCapsuleCardProps) {
             <p className="whitespace-pre-wrap break-words">{content}</p>
           </Link>
 
-          <div className="flex items-center text-xs text-muted-foreground gap-4">
+          <div className="flex items-center text-xs text-muted-foreground gap-4 mb-3">
             <div className="flex items-center gap-1">
               <Clock className="h-3 w-3" />
               <span>Unlocks on {deliveryDate}</span>
@@ -65,6 +66,21 @@ export default function TimeCapsuleCard({ timeCapsule }: TimeCapsuleCardProps) {
                 <span>Private</span>
               </div>
             )}
+          </div>
+
+          <div className="flex justify-between text-muted-foreground max-w-md">
+            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
+              <Heart className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
+              <MessageSquare className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
+              <Repeat className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
+              <Share2 className="h-4 w-4" />
+            </Button>
           </div>
         </div>
       </div>
