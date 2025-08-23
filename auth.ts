@@ -17,18 +17,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  pages: {
-    signIn: "/login",
-    error: "/auth-error",
-  },
-  callbacks: {
-    async session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-      }
-      return session;
-    },
-  },
   adapter: PrismaAdapter(prisma),
-  debug: process.env.NODE_ENV === "development",
 });

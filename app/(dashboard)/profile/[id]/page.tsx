@@ -11,7 +11,7 @@ import TimeCapsuleCard from "@/app/components/TimeCapsuleCard";
 import { format } from "date-fns";
 
 export default async function ProfilePage(props: any) {
-  const { id } = props.params;
+  const { id } = await props.params;
   const session = await auth();
   const currentUserId = session?.user?.id;
 
@@ -36,7 +36,7 @@ export default async function ProfilePage(props: any) {
 
   const isCurrentUser = currentUserId === user.id;
   const isFollowing = currentUserId
-    ? await prisma.user.count({
+    ? (await prisma.user.count({
         where: {
           id: currentUserId,
           following: {
@@ -45,12 +45,12 @@ export default async function ProfilePage(props: any) {
             },
           },
         },
-      }) > 0
+      })) > 0
     : false;
 
   // Get time capsules
   const timeCapsules = await getUserTimeCapsules(id);
-  
+
   // Calculate delivered and pending capsules
   const deliveredCapsules = timeCapsules.filter((capsule) => capsule.delivered);
   const pendingCapsules = timeCapsules.filter((capsule) => !capsule.delivered);
@@ -151,7 +151,11 @@ export default async function ProfilePage(props: any) {
             <div className="flex items-center gap-1">
               <Calendar className="h-4 w-4" />
               <span>
-                Joined {format(new Date(user.emailVerified || Date.now()), "MMMM yyyy")}
+                Joined{" "}
+                {format(
+                  new Date(user.emailVerified || Date.now()),
+                  "MMMM yyyy"
+                )}
               </span>
             </div>
           </div>
@@ -213,7 +217,9 @@ export default async function ProfilePage(props: any) {
         <TabsContent value="delivered">
           {deliveredCapsules.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-muted-foreground">No delivered time capsules yet</p>
+              <p className="text-muted-foreground">
+                No delivered time capsules yet
+              </p>
             </div>
           ) : (
             <div className="divide-y">
@@ -228,7 +234,9 @@ export default async function ProfilePage(props: any) {
           <TabsContent value="pending">
             {pendingCapsules.length === 0 ? (
               <div className="text-center py-16">
-                <p className="text-muted-foreground">No pending time capsules</p>
+                <p className="text-muted-foreground">
+                  No pending time capsules
+                </p>
               </div>
             ) : (
               <div className="divide-y">
