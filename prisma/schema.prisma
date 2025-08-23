@@ -53,6 +53,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  journals      Journal[]
+  followers     User[]    @relation("UserFollows", references: [id])
+  following     User[]    @relation("UserFollows", references: [id])
+
   @@map("users")
 }
 
@@ -63,4 +67,33 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+
+model Journal {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+
+  date DateTime @default(now()) @map("created_at")
+  highlight Boolean @default(false)
+
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("journals")
+}
+
+model TimeCapsule {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+
+  date DateTime @default(now()) @map("created_at")
+  deliverAt DateTime @map("deliver_at")
+  delivered Boolean @default(false)
+  public Boolean @default(false)
+
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("time_capsules")
 }
