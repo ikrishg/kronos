@@ -1,9 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Home, Bell, User2, PenSquare, LogOut, Globe } from "lucide-react";
+import { Home, User2, PenSquare, LogOut, Globe } from "lucide-react";
 import { signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { Drawer, DrawerContent, DrawerTrigger, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTrigger,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
 import CreateTimeCapsule from "./CreateTimeCapsule";
 
 interface SidebarProps {
@@ -28,7 +34,9 @@ export default function Sidebar({ user }: SidebarProps) {
               height={24}
               className="opacity-80"
             />
-            <h1 className="font-medium tracking-tight hidden md:block">Kronos</h1>
+            <h1 className="font-medium tracking-tight hidden md:block">
+              Kronos
+            </h1>
           </div>
 
           <nav className="space-y-1">
@@ -45,13 +53,6 @@ export default function Sidebar({ user }: SidebarProps) {
             >
               <Globe className="h-6 w-6" />
               <span className="hidden md:block">Explore</span>
-            </Link>
-            <Link
-              href="/notifications"
-              className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
-            >
-              <Bell className="h-6 w-6" />
-              <span className="hidden md:block">Notifications</span>
             </Link>
             <Link
               href={`/profile/${user.id}`}
@@ -95,7 +96,9 @@ export default function Sidebar({ user }: SidebarProps) {
             )}
             <div className="hidden md:block">
               <p className="font-medium text-sm truncate">{user.name}</p>
-              <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+              <p className="text-xs text-muted-foreground truncate">
+                {user.email}
+              </p>
             </div>
           </div>
           <form

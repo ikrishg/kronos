@@ -1,23 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow, format } from "date-fns";
-import { User2, Clock, Globe, Lock, Heart, MessageSquare, Repeat, Share2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { User2, Clock, Globe, Lock } from "lucide-react";
 import { TimeCapsuleWithUser } from "@/types";
 
 interface TimeCapsuleCardProps {
   timeCapsule: TimeCapsuleWithUser;
+  hideContent?: boolean;
 }
 
-export default function TimeCapsuleCard({ timeCapsule }: TimeCapsuleCardProps) {
+export default function TimeCapsuleCard({
+  timeCapsule,
+  hideContent = false,
+}: TimeCapsuleCardProps) {
   const { id, content, public: isPublic, date, deliverAt, user } = timeCapsule;
-  
+
   const formattedDate = formatDistanceToNow(new Date(date), {
     addSuffix: true,
   });
 
   const deliveryDate = format(new Date(deliverAt), "PPP");
-  
+  const isDelivered = new Date(deliverAt) <= new Date();
+
   return (
     <div className="border-b p-4 hover:bg-muted/20">
       <div className="flex gap-3">
@@ -36,24 +40,38 @@ export default function TimeCapsuleCard({ timeCapsule }: TimeCapsuleCardProps) {
             </div>
           )}
         </div>
-        
+
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
-            <Link href={`/profile/${user.id}`} className="font-medium hover:underline">
+            <Link
+              href={`/profile/${user.id}`}
+              className="font-medium hover:underline"
+            >
               {user.name}
             </Link>
             <span className="text-muted-foreground text-sm">·</span>
-            <span className="text-muted-foreground text-sm">{formattedDate}</span>
+            <span className="text-muted-foreground text-sm">
+              {formattedDate}
+            </span>
           </div>
 
           <Link href={`/kronos/${id}`} className="block mb-3">
-            <p className="whitespace-pre-wrap break-words">{content}</p>
+            {hideContent ? (
+              <div className="text-muted-foreground italic p-4 border-2 border-dashed border-muted-foreground/30 rounded-lg text-center">
+                <Lock className="h-6 w-6 mx-auto mb-2" />
+                <p>Content will be revealed when unlocked</p>
+              </div>
+            ) : (
+              <p className="whitespace-pre-wrap break-words">{content}</p>
+            )}
           </Link>
 
           <div className="flex items-center text-xs text-muted-foreground gap-4 mb-3">
             <div className="flex items-center gap-1">
               <Clock className="h-3 w-3" />
-              <span>Unlocks on {deliveryDate}</span>
+              <span>
+                {isDelivered ? "Unlocked on" : "Unlocks on"} {deliveryDate}
+              </span>
             </div>
             {isPublic ? (
               <div className="flex items-center gap-1">
@@ -66,21 +84,6 @@ export default function TimeCapsuleCard({ timeCapsule }: TimeCapsuleCardProps) {
                 <span>Private</span>
               </div>
             )}
-          </div>
-
-          <div className="flex justify-between text-muted-foreground max-w-md">
-            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
-              <Heart className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
-              <MessageSquare className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
-              <Repeat className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
-              <Share2 className="h-4 w-4" />
-            </Button>
           </div>
         </div>
       </div>

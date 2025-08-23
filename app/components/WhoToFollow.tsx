@@ -1,18 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import { User, User2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { User2 } from "lucide-react";
 import { prisma } from "@/prisma";
 import { auth } from "@/auth";
+import FollowButton from "@/app/components/FollowButton";
 
 export default async function WhoToFollow() {
   const session = await auth();
   const userId = session?.user?.id;
-  
+
   if (!userId) {
     return null;
   }
-  
+
   // Get users that the current user is not following
   const suggestedUsers = await prisma.user.findMany({
     where: {
@@ -40,7 +40,10 @@ export default async function WhoToFollow() {
     <div className="space-y-4">
       {suggestedUsers.map((user) => (
         <div key={user.id} className="flex items-center justify-between">
-          <Link href={`/profile/${user.id}`} className="flex items-center gap-2">
+          <Link
+            href={`/profile/${user.id}`}
+            className="flex items-center gap-2"
+          >
             {user.image ? (
               <Image
                 src={user.image}
@@ -56,24 +59,12 @@ export default async function WhoToFollow() {
             )}
             <div>
               <p className="font-medium text-sm">{user.name}</p>
-              <p className="text-xs text-muted-foreground">@{user.name?.toLowerCase().replace(/\s+/g, "")}</p>
+              <p className="text-xs text-muted-foreground">
+                @{user.name?.toLowerCase().replace(/\s+/g, "")}
+              </p>
             </div>
           </Link>
-          <form action={async () => {
-            "use server";
-            await prisma.user.update({
-              where: { id: userId },
-              data: {
-                following: {
-                  connect: { id: user.id },
-                },
-              },
-            });
-          }}>
-            <Button size="sm" variant="outline" className="rounded-full text-xs">
-              Follow
-            </Button>
-          </form>
+          <FollowButton targetUserId={user.id} initialIsFollowing={false} />
         </div>
       ))}
     </div>
