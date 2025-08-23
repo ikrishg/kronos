@@ -44,9 +44,11 @@ export default function Home() {
             </Link>
           </div>
 
-          <Button variant="outline" size="sm" className="rounded-full">
-            Sign In
-          </Button>
+          <Link href="/login">
+            <Button variant="outline" size="sm" className="rounded-full">
+              Sign In
+            </Button>
+          </Link>
         </div>
       </header>
 
@@ -74,9 +76,11 @@ export default function Home() {
               now, rediscover them when you need them most.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="rounded-full px-6">
-                Create Your Capsule
-              </Button>
+              <Link href="/login">
+                <Button size="lg" className="rounded-full px-6">
+                  Create Your Capsule
+                </Button>
+              </Link>
               <Button size="lg" variant="outline" className="rounded-full px-6">
                 Learn More
               </Button>
@@ -270,9 +274,11 @@ export default function Home() {
             Create your digital time capsule and save memories for your future
             self
           </p>
-          <Button size="lg" className="rounded-full px-8">
-            Create Your Capsule
-          </Button>
+          <Link href="/login">
+            <Button size="lg" className="rounded-full px-8">
+              Create Your Capsule
+            </Button>
+          </Link>
         </div>
       </section>
 
