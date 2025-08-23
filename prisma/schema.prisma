@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
@@ -52,10 +52,13 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  followers     User[] @relation("UserFollows")
-  following     User[] @relation("UserFollows")
-  journals      Journal[]
-  timecapsules  TimeCapsule[]
+  followers    User[]        @relation("UserFollows")
+  following    User[]        @relation("UserFollows")
+  journals     Journal[]
+  timecapsules TimeCapsule[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("users")
 }
@@ -69,32 +72,30 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-
 model Journal {
-  id        String   @id @default(cuid())
-  content   String   @db.Text
+  id      String @id @default(cuid())
+  content String @db.Text
 
-  date DateTime @default(now()) @map("created_at")
-  highlight Boolean @default(false)
+  date      DateTime @default(now()) @map("created_at")
+  highlight Boolean  @default(false)
 
-  userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("journals")
 }
 
 model TimeCapsule {
-  id        String   @id @default(cuid())
-  content   String   @db.Text
+  id      String @id @default(cuid())
+  content String @db.Text
 
-
-  public Boolean @default(false)
-  date DateTime @default(now()) @map("created_at")
+  public    Boolean  @default(false)
+  date      DateTime @default(now()) @map("created_at")
   deliverAt DateTime @map("deliver_at")
-  delivered Boolean @default(false)
+  delivered Boolean  @default(false)
 
-  userId    String   @map("user_id")
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("time_capsules")
 }
