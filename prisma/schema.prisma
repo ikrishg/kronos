@@ -56,12 +56,6 @@ model User {
   following    User[]        @relation("UserFollows")
   journals     Journal[]
   timecapsules TimeCapsule[]
-  
-  // Notifications that this user has received
-  receivedNotifications Notification[] @relation("ReceivedNotifications")
-  
-  // Notifications that this user has created (e.g., when they follow someone)
-  createdNotifications  Notification[] @relation("CreatedNotifications")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -104,22 +98,4 @@ model TimeCapsule {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("time_capsules")
-}
-
-model Notification {
-  id        String   @id @default(cuid())
-  type      String   // e.g., "follow", "time_capsule_delivered", etc.
-  message   String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now()) @map("created_at")
-  
-  // The user who receives the notification
-  receiverId String @map("receiver_id")
-  receiver   User   @relation("ReceivedNotifications", fields: [receiverId], references: [id], onDelete: Cascade)
-  
-  // The user who triggered the notification (optional - might be null for system notifications)
-  actorId    String? @map("actor_id")
-  actor      User?   @relation("CreatedNotifications", fields: [actorId], references: [id], onDelete: SetNull)
-
-  @@map("notifications")
 }
