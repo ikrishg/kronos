@@ -1,7 +1,6 @@
-import 'next-auth';
-import { User as PrismaUser } from '@prisma/client';
+import "next-auth";
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session {
     user: {
       id: string;
@@ -25,9 +24,4 @@ export type TimeCapsuleWithUser = {
     name: string | null;
     image: string | null;
   };
-};
-
-export type UserWithFollows = PrismaUser & {
-  followers: PrismaUser[];
-  following: PrismaUser[];
 };
