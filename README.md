@@ -6,7 +6,7 @@
 
 Write a message, pick a delivery date, and keep it private or public—follow people and read their capsules after they unlock.
 
-<p><a href="https://kronos-red.vercel.app">https://kronos-red.vercel.app</a></p>
+<p><a href="https://kronos-sineveritas.vercel.app">https://kronos-sineveritas.vercel.app</a></p>
 
 </div>
 
