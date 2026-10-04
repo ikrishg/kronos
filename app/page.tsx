@@ -135,8 +135,9 @@ export default function Home() {
               />
               <span className="text-sm font-medium">Kronos</span>
             </div>
-            <div className="text-xs text-muted-foreground text-center">
-              © {new Date().getFullYear()} Kronos · CD Doon
+            <div className="text-xs text-muted-foreground text-center space-y-1">
+              <p>Winner at CodeDay Dehradun</p>
+              <p>© {new Date().getFullYear()} Kronos · CD Doon</p>
             </div>
           </div>
         </div>
