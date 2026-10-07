@@ -20,8 +20,12 @@ export default function Sidebar({ user }: SidebarProps) {
     <aside className="sticky top-0 h-screen w-20 shrink-0 border-r border-border bg-background p-4 md:w-64">
       <div className="flex h-full flex-col justify-between">
         <div>
-          <div className="mb-8">
-            <KronosWordmark size="md" />
+          <div className="mb-8 flex justify-center md:justify-start">
+            <KronosWordmark
+              size="md"
+              href="/feed"
+              collapseBelowMd
+            />
           </div>
 
           <DashboardNav userId={user.id} />
@@ -31,6 +35,7 @@ export default function Sidebar({ user }: SidebarProps) {
               userId={user.id}
               className="w-full justify-center md:justify-start"
               label="New capsule"
+              collapseLabelBelowMd
             />
           </div>
         </div>
