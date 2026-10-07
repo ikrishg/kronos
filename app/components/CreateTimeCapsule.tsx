@@ -92,12 +92,18 @@ export default function CreateTimeCapsule({ userId }: CreateTimeCapsuleProps) {
       </div>
 
       <div>
-        <Label className="mb-2 block text-sm text-muted-foreground">Visibility</Label>
+        <Label
+          id="visibility-label"
+          className="mb-2 block text-sm text-muted-foreground"
+        >
+          Visibility
+        </Label>
         <ToggleGroup
           type="single"
           variant="outline"
           value={isPublic ? "public" : "private"}
           onValueChange={(value) => value && setIsPublic(value === "public")}
+          aria-labelledby="visibility-label"
           className="flex flex-wrap gap-2"
         >
           <ToggleGroupItem value="private" className={pillToggle}>
@@ -114,7 +120,15 @@ export default function CreateTimeCapsule({ userId }: CreateTimeCapsuleProps) {
           Unlock date
         </Label>
         <div className="space-y-3">
-          <ToggleGroup type="single" variant="outline" className="flex flex-wrap gap-2">
+          <Label id="unlock-duration-label" className="sr-only">
+            Unlock duration preset
+          </Label>
+          <ToggleGroup
+            type="single"
+            variant="outline"
+            aria-labelledby="unlock-duration-label"
+            className="flex flex-wrap gap-2"
+          >
             <ToggleGroupItem
               value="1year"
               onClick={() => handleQuickDateSelect("1year")}

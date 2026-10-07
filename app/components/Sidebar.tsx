@@ -68,7 +68,7 @@ export default function Sidebar({ user }: SidebarProps) {
               className="w-full justify-center gap-2 text-muted-foreground hover:text-foreground md:justify-start"
             >
               <LogOut className="h-4 w-4" />
-              <span className="hidden md:inline">Sign out</span>
+              <span className="sr-only md:not-sr-only">Sign out</span>
             </Button>
           </form>
         </div>

@@ -57,14 +57,12 @@ export default function KronosWordmark({
     </span>
   );
 
-  const linkLabel = collapseBelowMd ? "Kronos home" : "Kronos";
-
   if (asLink) {
     return (
       <Link
         href={href}
         className="inline-flex items-center hover:opacity-90 transition-opacity"
-        aria-label={linkLabel}
+        {...(collapseBelowMd ? { "aria-label": "Kronos home" } : {})}
       >
         {mark}
       </Link>
