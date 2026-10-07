@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow, format } from "date-fns";
-import { User2, Clock, Globe, Lock } from "lucide-react";
+import { User2 } from "lucide-react";
 import { TimeCapsuleWithUser } from "@/types";
 
 interface TimeCapsuleCardProps {
@@ -23,70 +23,59 @@ export default function TimeCapsuleCard({
   const isDelivered = new Date(deliverAt) <= new Date();
 
   return (
-    <div className="border-b p-4 hover:bg-muted/20">
-      <div className="flex gap-3">
-        <div className="flex-shrink-0">
-          {user.image ? (
-            <Image
-              src={user.image}
-              alt={user.name || "User"}
-              width={48}
-              height={48}
-              className="rounded-full"
-            />
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-              <User2 className="h-6 w-6 text-muted-foreground" />
-            </div>
-          )}
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-            <Link
-              href={`/profile/${user.id}`}
-              className="font-medium hover:underline"
-            >
-              {user.name}
-            </Link>
-            <span className="text-muted-foreground text-sm">·</span>
-            <span className="text-muted-foreground text-sm">
-              {formattedDate}
-            </span>
+    <article className="border-b border-border p-4">
+      <div className="rounded-lg border border-border bg-card p-4">
+        <div className="flex gap-3">
+          <div className="shrink-0">
+            {user.image ? (
+              <Image
+                src={user.image}
+                alt={user.name || "User"}
+                width={48}
+                height={48}
+                className="rounded-full"
+              />
+            ) : (
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+                <User2 className="h-6 w-6 text-muted-foreground" />
+              </div>
+            )}
           </div>
 
-          <Link href={`/kronos/${id}`} className="block mb-3">
-            {hideContent ? (
-              <div className="text-muted-foreground italic p-4 border-2 border-dashed border-muted-foreground/30 rounded-lg text-center">
-                <Lock className="h-6 w-6 mx-auto mb-2" />
-                <p>Content will be revealed when unlocked</p>
-              </div>
-            ) : (
-              <p className="whitespace-pre-wrap break-words">{content}</p>
-            )}
-          </Link>
-
-          <div className="flex items-center text-xs text-muted-foreground gap-4 mb-3">
-            <div className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              <span>
-                {isDelivered ? "Unlocked on" : "Unlocks on"} {deliveryDate}
-              </span>
+          <div className="min-w-0 flex-1">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
+              <Link
+                href={`/profile/${user.id}`}
+                className="font-normal hover:underline"
+              >
+                {user.name}
+              </Link>
+              <span className="text-sm text-muted-foreground">·</span>
+              <span className="text-sm text-muted-foreground">{formattedDate}</span>
             </div>
-            {isPublic ? (
-              <div className="flex items-center gap-1">
-                <Globe className="h-3 w-3" />
-                <span>Public</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1">
-                <Lock className="h-3 w-3" />
-                <span>Private</span>
-              </div>
-            )}
+
+            <Link href={`/kronos/${id}`} className="mb-3 block">
+              {hideContent ? (
+                <p className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                  LOCKED · unlocks {deliveryDate}
+                </p>
+              ) : (
+                <p className="whitespace-pre-wrap break-words text-body-secondary">
+                  {content}
+                </p>
+              )}
+            </Link>
+
+            <div className="flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+              <span>
+                {isDelivered ? "Unlocked" : "Unlocks"} {deliveryDate}
+              </span>
+              <span>·</span>
+              <span>{isPublic ? "Public" : "Private"}</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

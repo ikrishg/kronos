@@ -1,16 +1,10 @@
-import Link from "next/link";
 import Image from "next/image";
-import { Home, User2, PenSquare, LogOut, Globe } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
-import CreateTimeCapsule from "./CreateTimeCapsule";
+import KronosWordmark from "./KronosWordmark";
+import DashboardNav from "./DashboardNav";
+import NewCapsuleDrawer from "./NewCapsuleDrawer";
 
 interface SidebarProps {
   user: {
@@ -23,63 +17,26 @@ interface SidebarProps {
 
 export default function Sidebar({ user }: SidebarProps) {
   return (
-    <aside className="w-20 md:w-64 p-4 sticky top-0 h-screen">
-      <div className="h-full flex flex-col justify-between">
+    <aside className="sticky top-0 h-screen w-20 shrink-0 border-r border-border bg-background p-4 md:w-64">
+      <div className="flex h-full flex-col justify-between">
         <div>
-          <div className="flex items-center gap-2 mb-8">
-            <Image
-              src="/globe.svg"
-              alt="Kronos Logo"
-              width={24}
-              height={24}
-              className="opacity-80"
+          <div className="mb-8 flex justify-center md:justify-start">
+            <KronosWordmark
+              size="md"
+              href="/feed"
+              collapseBelowMd
             />
-            <h1 className="font-medium tracking-tight hidden md:block">
-              Kronos
-            </h1>
           </div>
 
-          <nav className="space-y-1">
-            <Link
-              href="/feed"
-              className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
-            >
-              <Home className="h-6 w-6" />
-              <span className="hidden md:block">Feed</span>
-            </Link>
-            <Link
-              href="/explore"
-              className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
-            >
-              <Globe className="h-6 w-6" />
-              <span className="hidden md:block">Explore</span>
-            </Link>
-            <Link
-              href={`/profile/${user.id}`}
-              className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
-            >
-              <User2 className="h-6 w-6" />
-              <span className="hidden md:block">Profile</span>
-            </Link>
-          </nav>
+          <DashboardNav userId={user.id} />
 
           <div className="mt-8">
-            <Drawer>
-              <DrawerTrigger asChild>
-                <Button className="rounded-full w-full justify-start gap-2">
-                  <PenSquare className="h-5 w-5" />
-                  <span className="hidden md:block">Create TimeCapsule</span>
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>Create Time Capsule</DrawerTitle>
-                </DrawerHeader>
-                <div className="p-4 pt-0">
-                  <CreateTimeCapsule userId={user.id} />
-                </div>
-              </DrawerContent>
-            </Drawer>
+            <NewCapsuleDrawer
+              userId={user.id}
+              className="w-full justify-center md:justify-start"
+              label="New capsule"
+              collapseLabelBelowMd
+            />
           </div>
         </div>
 
@@ -94,11 +51,8 @@ export default function Sidebar({ user }: SidebarProps) {
                 className="rounded-full"
               />
             )}
-            <div className="hidden md:block">
-              <p className="font-medium text-sm truncate">{user.name}</p>
-              <p className="text-xs text-muted-foreground truncate">
-                {user.email}
-              </p>
+            <div className="hidden min-w-0 md:block">
+              <p className="truncate text-sm font-normal">{user.name}</p>
             </div>
           </div>
           <form
@@ -111,10 +65,10 @@ export default function Sidebar({ user }: SidebarProps) {
             <Button
               type="submit"
               variant="ghost"
-              className="w-full justify-start gap-2 text-muted-foreground hover:text-foreground"
+              className="w-full justify-center gap-2 text-muted-foreground hover:text-foreground md:justify-start"
             >
               <LogOut className="h-4 w-4" />
-              <span className="hidden md:block">Sign out</span>
+              <span className="sr-only md:not-sr-only">Sign out</span>
             </Button>
           </form>
         </div>
