@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -45,7 +44,7 @@ export default function CreateTimeCapsule({ userId }: CreateTimeCapsuleProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!content.trim()) {
       toast.error("Please add some content to your time capsule");
       return;
@@ -53,7 +52,7 @@ export default function CreateTimeCapsule({ userId }: CreateTimeCapsuleProps) {
 
     try {
       setIsSubmitting(true);
-      
+
       await createTimeCapsule({
         content,
         isPublic,
@@ -61,112 +60,102 @@ export default function CreateTimeCapsule({ userId }: CreateTimeCapsuleProps) {
         userId,
       });
 
-      toast.success("Time capsule created successfully");
+      toast.success("Time capsule sealed");
       setContent("");
       setIsSubmitting(false);
     } catch (error) {
       console.error("Error creating time capsule:", error);
-      toast.error("Failed to create time capsule");
+      toast.error("Failed to seal capsule");
       setIsSubmitting(false);
     }
   };
 
+  const pillToggle =
+    "rounded-full border border-[rgba(255,255,255,0.25)] px-4 data-[state=on]:bg-muted data-[state=on]:text-foreground first:rounded-full last:rounded-full data-[variant=outline]:border-l";
+
   return (
-    <div className="p-4">
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="content" className="mb-2 block">
-              What do you want to remember?
-            </Label>
-            <Textarea
-              id="content"
-              placeholder="Write something you want to remember in the future..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="min-h-32"
-            />
-            <div className="text-xs text-muted-foreground mt-1 text-right">
-              {content.length} / 1000 characters
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="visibility" className="mb-2 block">
-              Visibility
-            </Label>
-            <ToggleGroup
-              type="single"
-              value={isPublic ? "public" : "private"}
-              onValueChange={(value) => setIsPublic(value === "public")}
-              className="justify-start"
-            >
-              <ToggleGroupItem value="private" className="gap-2">
-                Private
-              </ToggleGroupItem>
-              <ToggleGroupItem value="public" className="gap-2">
-                Public
-              </ToggleGroupItem>
-            </ToggleGroup>
-            <p className="text-xs text-muted-foreground mt-1">
-              {isPublic
-                ? "Everyone can see this time capsule when it's delivered"
-                : "Only you can see this time capsule"}
-            </p>
-          </div>
-
-          <div>
-            <Label htmlFor="unlock-date" className="mb-2 block">
-              Delivery Date
-            </Label>
-            <div className="space-y-3">
-              <ToggleGroup type="single" className="justify-start">
-                <ToggleGroupItem
-                  value="1year"
-                  onClick={() => handleQuickDateSelect("1year")}
-                  className="gap-1"
-                >
-                  1 Year
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                  value="5years"
-                  onClick={() => handleQuickDateSelect("5years")}
-                  className="gap-1"
-                >
-                  5 Years
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                  value="10years"
-                  onClick={() => handleQuickDateSelect("10years")}
-                  className="gap-1"
-                >
-                  10 Years
-                </ToggleGroupItem>
-              </ToggleGroup>
-
-              <div className="relative">
-                <CalendarIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="unlock-date"
-                  type="date"
-                  className="pl-10"
-                  value={deliveryDate}
-                  onChange={(e) => setDeliveryDate(e.target.value)}
-                  min={new Date().toISOString().split("T")[0]}
-                />
-              </div>
-            </div>
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full mt-4"
-            disabled={isSubmitting || !content.trim()}
-          >
-            {isSubmitting ? "Creating..." : "Create Time Capsule"}
-          </Button>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <Label htmlFor="content" className="mb-2 block text-sm text-muted-foreground">
+          What do you want to remember?
+        </Label>
+        <Textarea
+          id="content"
+          placeholder="Write something you want to remember in the future..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          className="min-h-32"
+        />
+        <div className="mt-1 text-right text-xs text-muted-foreground">
+          {content.length} / 1000
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div>
+        <Label className="mb-2 block text-sm text-muted-foreground">Visibility</Label>
+        <ToggleGroup
+          type="single"
+          variant="outline"
+          value={isPublic ? "public" : "private"}
+          onValueChange={(value) => value && setIsPublic(value === "public")}
+          className="flex flex-wrap gap-2"
+        >
+          <ToggleGroupItem value="private" className={pillToggle}>
+            Private
+          </ToggleGroupItem>
+          <ToggleGroupItem value="public" className={pillToggle}>
+            Public
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
+      <div>
+        <Label htmlFor="unlock-date" className="mb-2 block text-sm text-muted-foreground">
+          Unlock date
+        </Label>
+        <div className="space-y-3">
+          <ToggleGroup type="single" variant="outline" className="flex flex-wrap gap-2">
+            <ToggleGroupItem
+              value="1year"
+              onClick={() => handleQuickDateSelect("1year")}
+              className={pillToggle}
+            >
+              1Y
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="5years"
+              onClick={() => handleQuickDateSelect("5years")}
+              className={pillToggle}
+            >
+              5Y
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="10years"
+              onClick={() => handleQuickDateSelect("10years")}
+              className={pillToggle}
+            >
+              10Y
+            </ToggleGroupItem>
+          </ToggleGroup>
+
+          <Input
+            id="unlock-date"
+            type="date"
+            value={deliveryDate}
+            onChange={(e) => setDeliveryDate(e.target.value)}
+            min={new Date().toISOString().split("T")[0]}
+          />
+        </div>
+      </div>
+
+      <Button
+        type="submit"
+        className="w-full"
+        size="lg"
+        disabled={isSubmitting || !content.trim()}
+      >
+        {isSubmitting ? "Sealing…" : "Seal capsule"}
+      </Button>
+    </form>
   );
 }

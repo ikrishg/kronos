@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { auth, signIn } from "@/auth";
+import KronosWordmark from "@/app/components/KronosWordmark";
 
 export default async function LoginPage() {
   const session = await auth();
@@ -12,40 +12,28 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="border-b bg-background/50 backdrop-blur-sm w-full z-10">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <Image
-              src="/globe.svg"
-              alt="Kronos Logo"
-              width={24}
-              height={24}
-              className="opacity-80"
-            />
-            <h1 className="font-medium tracking-tight">Kronos</h1>
-          </div>
-
-          <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-            Back to Home
+    <div className="flex min-h-screen flex-col bg-background">
+      <header className="w-full border-b border-border">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+          <KronosWordmark size="md" />
+          <Link
+            href="/"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Back to home
           </Link>
         </div>
       </header>
 
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="bg-card border rounded-lg shadow-sm p-8 w-full max-w-md">
-          <div className="text-center mb-6">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/globe.svg"
-                alt="Kronos Logo"
-                width={40}
-                height={40}
-                className="opacity-80"
-              />
-            </div>
-            <h1 className="text-2xl font-semibold mb-2">Welcome to Kronos</h1>
-            <p className="text-muted-foreground">Sign in to create and discover time capsules</p>
+      <div className="flex flex-1 items-center justify-center px-6 py-12">
+        <div className="w-full max-w-md rounded-lg border border-border bg-card p-6">
+          <div className="mb-8 text-center">
+            <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              Sign in
+            </p>
+            <h1 className="text-2xl font-normal tracking-tight">
+              Continue to create capsules
+            </h1>
           </div>
 
           <form
@@ -55,11 +43,12 @@ export default async function LoginPage() {
             }}
             className="space-y-4"
           >
-            <Button type="submit" className="w-full flex items-center gap-2">
-              <svg 
-                viewBox="0 0 24 24" 
-                className="h-5 w-5" 
+            <Button type="submit" className="w-full gap-2" size="lg">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-5 w-5"
                 xmlns="http://www.w3.org/2000/svg"
+                aria-hidden
               >
                 <path
                   d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -78,18 +67,21 @@ export default async function LoginPage() {
                   fill="#EA4335"
                 />
               </svg>
-              Continue with Google
+              Sign in with Google
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-muted-foreground">
-            <p>By signing in, you agree to our</p>
-            <p className="mt-1">
-              <a href="#" className="text-primary hover:underline">Terms of Service</a>
-              {" & "}
-              <a href="#" className="text-primary hover:underline">Privacy Policy</a>
-            </p>
-          </div>
+          <p className="mt-8 text-center text-xs text-muted-foreground">
+            By signing in, you agree to our{" "}
+            <Link href="/terms" className="text-foreground underline-offset-2 hover:underline">
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="text-foreground underline-offset-2 hover:underline">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </div>
       </div>
     </div>

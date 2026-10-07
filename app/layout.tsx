@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Kronos",
-  description: "Project for cd doon",
+  description: "Preserve moments now. Open your time capsules when the date arrives.",
 };
 
 export default function RootLayout({
