@@ -24,9 +24,9 @@ export default function Home() {
           <p className="mt-6 max-w-md text-base text-body-secondary">
             Seal memories now and rediscover them when the time is right.
           </p>
-          <Link href="/login" className="mt-10">
-            <Button size="lg">Sign in with Google</Button>
-          </Link>
+          <Button asChild size="lg" className="mt-10">
+            <Link href="/login">Sign in with Google</Link>
+          </Button>
         </div>
       </main>
 

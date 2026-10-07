@@ -38,7 +38,7 @@ export default function DashboardNav({ userId }: DashboardNavProps) {
             )}
           >
             <Icon className="h-6 w-6 shrink-0" />
-            <span className="hidden md:block">{label}</span>
+            <span className="sr-only md:not-sr-only">{label}</span>
           </Link>
         );
       })}
@@ -52,7 +52,7 @@ export default function DashboardNav({ userId }: DashboardNavProps) {
         )}
       >
         <User2 className="h-6 w-6 shrink-0" />
-        <span className="hidden md:block">Profile</span>
+        <span className="sr-only md:not-sr-only">Profile</span>
       </Link>
     </nav>
   );
