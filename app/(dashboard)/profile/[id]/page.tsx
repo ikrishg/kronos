@@ -179,8 +179,8 @@ export default async function ProfilePage(props: {
 
         <TabsContent value="capsules">
           {timeCapsules.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground">No time capsules yet</p>
+            <div className="py-16 text-center">
+              <p className="text-body-secondary">No capsules yet.</p>
             </div>
           ) : (
             <div className="divide-y">
@@ -193,10 +193,8 @@ export default async function ProfilePage(props: {
 
         <TabsContent value="delivered">
           {deliveredCapsules.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground">
-                No delivered time capsules yet
-              </p>
+            <div className="py-16 text-center">
+              <p className="text-body-secondary">Nothing unlocked yet.</p>
             </div>
           ) : (
             <div className="divide-y">
@@ -210,10 +208,8 @@ export default async function ProfilePage(props: {
         {isCurrentUser && (
           <TabsContent value="pending">
             {pendingCapsules.length === 0 ? (
-              <div className="text-center py-16">
-                <p className="text-muted-foreground">
-                  No pending time capsules
-                </p>
+              <div className="py-16 text-center">
+                <p className="text-body-secondary">No sealed capsules waiting.</p>
               </div>
             ) : (
               <div className="divide-y">
