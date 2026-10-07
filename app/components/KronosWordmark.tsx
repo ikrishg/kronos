@@ -4,7 +4,10 @@ import { cn } from "@/lib/utils";
 type KronosWordmarkProps = {
   className?: string;
   asLink?: boolean;
+  href?: string;
   size?: "sm" | "md" | "lg";
+  /** Show mono “K” below md; full KRONOS from md up */
+  collapseBelowMd?: boolean;
 };
 
 const sizeClasses = {
@@ -16,9 +19,33 @@ const sizeClasses = {
 export default function KronosWordmark({
   className,
   asLink = true,
+  href = "/",
   size = "md",
+  collapseBelowMd = false,
 }: KronosWordmarkProps) {
-  const mark = (
+  const mark = collapseBelowMd ? (
+    <>
+      <span
+        className={cn(
+          "font-mono font-normal uppercase text-foreground md:hidden",
+          sizeClasses[size],
+          className
+        )}
+        aria-hidden
+      >
+        K
+      </span>
+      <span
+        className={cn(
+          "hidden font-mono font-normal uppercase text-foreground md:inline",
+          sizeClasses[size],
+          className
+        )}
+      >
+        KRONOS
+      </span>
+    </>
+  ) : (
     <span
       className={cn(
         "font-mono font-normal uppercase text-foreground",
@@ -30,9 +57,15 @@ export default function KronosWordmark({
     </span>
   );
 
+  const linkLabel = collapseBelowMd ? "Kronos home" : "Kronos";
+
   if (asLink) {
     return (
-      <Link href="/" className="inline-flex items-center hover:opacity-90 transition-opacity">
+      <Link
+        href={href}
+        className="inline-flex items-center hover:opacity-90 transition-opacity"
+        aria-label={linkLabel}
+      >
         {mark}
       </Link>
     );

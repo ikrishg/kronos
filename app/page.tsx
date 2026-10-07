@@ -5,7 +5,7 @@ import KronosWordmark from "@/app/components/KronosWordmark";
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <header className="fixed z-10 w-full border-b border-border">
+      <header className="fixed z-10 w-full border-b border-border bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/80">
         <div className="mx-auto flex max-w-5xl items-center px-6 py-4">
           <KronosWordmark size="md" />
         </div>
