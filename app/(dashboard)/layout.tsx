@@ -16,16 +16,13 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left Sidebar */}
+    <div className="flex min-h-screen bg-background">
       <Sidebar user={session.user} />
 
-      {/* Main Content */}
-      <main className="flex-1 border-x min-h-screen">
-        <div className="max-w-2xl mx-auto">{children}</div>
+      <main className="min-h-screen flex-1 border-x border-border">
+        <div className="mx-auto max-w-2xl">{children}</div>
       </main>
 
-      {/* Right Sidebar */}
       <RightSidebar />
 
       <Toaster position="top-center" />
