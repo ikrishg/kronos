@@ -125,53 +125,6 @@ export async function getFollowingTimeCapsules() {
     throw new Error("Unauthorized");
   }
 
-  // Debug: First, let's check if we're following anyone
-  const currentUser = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    include: {
-      following: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-
-  console.log("Current user following:", currentUser?.following);
-
-  // Debug: Check all public time capsules from people we follow (regardless of delivery date)
-  const allFollowingCapsules = await prisma.timeCapsule.findMany({
-    where: {
-      public: true,
-      user: {
-        followers: {
-          some: {
-            id: session.user.id,
-          },
-        },
-      },
-    },
-    include: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
-    },
-    orderBy: {
-      date: "desc",
-    },
-  });
-
-  console.log(
-    "All following capsules (no date filter):",
-    allFollowingCapsules.length
-  );
-
-  // Now get only delivered ones
   const timeCapsules = await prisma.timeCapsule.findMany({
     where: {
       public: true,
@@ -200,9 +153,6 @@ export async function getFollowingTimeCapsules() {
     },
     take: 20,
   });
-
-  console.log("Delivered following capsules:", timeCapsules.length);
-  console.log("Current date:", new Date());
 
   return timeCapsules;
 }

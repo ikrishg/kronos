@@ -34,7 +34,10 @@ export default function Home() {
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-2 px-6">
           <KronosWordmark size="sm" asLink={false} />
           <p className="font-mono text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Kronos
+            🏆 WINNER CODEDAY DEHRADUN 🏆
+          </p>
+          <p className="font-mono text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Kronos · CD Doon
           </p>
         </div>
       </footer>
