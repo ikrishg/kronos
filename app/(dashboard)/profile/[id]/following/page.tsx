@@ -6,8 +6,12 @@ import { prisma } from "@/prisma";
 import { getFollowing } from "@/app/actions/follow";
 import { UserListItem } from "@/app/components/UserListItem";
 
-export default async function FollowingPage(props: any) {
-  const { id } = props.params;
+export default async function FollowingPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const session = await auth();
   const currentUserId = session?.user?.id;
 

@@ -6,8 +6,12 @@ import { formatDistanceToNow, format } from "date-fns";
 import { prisma } from "@/prisma";
 import { auth } from "@/auth";
 
-export default async function TimeCapsulePage(props: any) {
-  const { id } = props.params;
+export default async function TimeCapsulePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
   const session = await auth();
   const userId = session?.user?.id;
 
